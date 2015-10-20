@@ -16,7 +16,7 @@ public class ConfigUtil {
     public static void setSummarySize(int percentage) {
           summaryPercentage = percentage;
      }
-   public static int getSummarySIze() {
+   public static int getSummarySize() {
          return summaryPercentage;
    }
 }

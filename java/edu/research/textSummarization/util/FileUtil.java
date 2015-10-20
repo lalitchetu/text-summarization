@@ -24,6 +24,7 @@ public class FileUtil {
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
             System.out.println("FileNotFoundException" + ex.toString());
+            return null;
         } catch (IOException ie) {
             ie.printStackTrace();
             System.out.println("IO Exception in reading file" + ie.toString());

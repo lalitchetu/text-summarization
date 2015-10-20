@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -140,9 +141,9 @@ public class SentenceManager {
     {
     m_TopWeightedSentenceList.add(m_SentencesList.get(i));
     }
-    Collections.sort(m_TopWeightedsentenceList,new Comparator()
+    Collections.sort(m_TopWeightedSentenceList, new Comparator()
     {
-    public int compare (object o1,object o2)
+    public int compare (Object o1, Object o2)
     {
     if(o1==null||o2==null)
     {
@@ -177,11 +178,11 @@ public class SentenceManager {
     System.out.println("Entry SentenceManager:getSentenceWeight():Perameters:sentence=object of sentence");
     double weight =((Constants.ALPFA)*(getIndividualWordWeight(sentence))+
     (Constants.BETA)*(getThemeWordWeight(sentence))+
-    (Constants.GAMA)*(getTitleWordWeight(sentence))+
+   // (Constants.GAMA)*(getTitleWordWeight(sentence))+
     (Constants.DELTA)*(getWeightDueToSRI(sentence))+
     (Constants.THITHA)*(getWeightDueToCuePhrase(sentence))+
     (Constants.PHAYI)*(getWeightDueToLocation(sentence))+
-    (Constants.OMWEGA)*(getWeightDueToProperNoun(sentence));
+    (Constants.OMWEGA)*(getWeightDueToProperNoun(sentence)));
     System.out.println("Return SentenceManager:getSentenceWeight():Perameters:weight="+weight);
     return weight;
     }
@@ -213,12 +214,12 @@ public class SentenceManager {
     }
     String sentenceText=sentence.getSentenceText();
     System.out.println("sentenceText="+sentenceText);
-    String[] tokens=sentenceText.spli("[
+    String[] tokens=sentenceText.split("[");
     for(String token:tokens)
     {
     sentenceWeight+=m_tokenManager.getThemewordweight(token);
     }
-    System.out,println("Return SentenceManager:getThemeWordWeight():Return="+sentenceWeight);
+    //System.out,println("Return SentenceManager:getThemeWordWeight():Return="+sentenceWeight);
     return sentenceWeight;
     }
     private double fetTilteWordWeight(Sentence sentence)
@@ -257,11 +258,11 @@ public class SentenceManager {
     String nextSentenceText=nextSentence.getSentenceText();
     System.out.println("nextsentenceText="+nextSentenceText);
     if(nextSentenceText.length()<2)return 0.0;
-    String nextSentenceFirstWord=sentenceText.split("[-]");
+    String nextSentenceFirstWord[] =sentenceText.split("[-]");
     System.out.println("nextSentenceFirstWord="+nextSentenceFirstWord);
-    if(Constants.SENTENCE_REFERER_WORDS.contains(nextSentenceFirstWord.toLowercase()))
+    if(Constants.SENTENCE_REFERER_WORDS.contains(sentenceText))
     {
-    System.out.println("Return SentenceManager:getWeightDuetoNextSentence()    Return="+constants.WEIGHT_DUE_TO_HE);
+    System.out.println("Return SentenceManager:getWeightDuetoNextSentence()    Return="+Constants.WEIGHT_DUE_TO_HE);
     return Constants.WEIGHT_DUE_TO_HE;
     }
     System.out.println("Return SentenceManager:getWeightDuetoNextSentence()    Return=0.0");
@@ -276,7 +277,7 @@ public class SentenceManager {
     {
     if(sentanceText.toLowerCase().contains(cuephras))
     {
-    weightCuePhare=Constants.WEIGHT_DUE_TO_CUE_PHARES;
+        weightCuePhrase=Constants.WEIGHT_DUE_TO_CUE_PHARES;
     break;
     }
     }
@@ -285,7 +286,7 @@ public class SentenceManager {
     }
     private double getWeightDueToLocation(Sentence sentance)
     {
-    return getLocWeight(sentance.getSentenceNo(),m_SentencesList.size());
+    return getLOcWeight(sentance.getSentenceNo(),m_SentencesList.size());
     }
     private double getLOcWeight(int sentanceNo,int totalNoOfSentence)
     {
@@ -326,7 +327,7 @@ public class SentenceManager {
     txtInput.setLineWrap(true);
     txtInput.setRows(5);
     txtInput.setAutoscrolls(false);
-    jScrollPane1.setViewportView(txtInput);
+    //jScrollPane1.setViewportView(txtInput);
 
 
     jLabel2.setText("Input File(Original Text)");
@@ -337,22 +338,21 @@ public class SentenceManager {
     txtSummarizedText.setRows(5);
     txtSummarizedText.setAutoscrolls(false);
     txtSummarizedText.setName(txtSummarizedText.getText());
-    jScrollPane2.setViewportView(txtSummarizedText);
+    //jScrollPane2.setViewportView(txtSummarizedText);
 
 
     jLabel3.setText("SummarizedText");
 
 
     btnSummarize.setText("Summarize");
-    btnSummarize.addActionListener(newjava.awt.event.ActionListener() {
+    btnSummarize.addActionListener(new java.awt.event.ActionListener() {
        public void actionPerformed(java.awt.event.ActionEvent evt) {
           btnSummarizeActionPerformed(evt);
        }
     }); 
 
-    cmbSummarySize.setModel(new javax.swing.DefaultComboBoxModel(new string[]{
-    "Select","Large","Moderate","small"}));
-              cmbSummarySize.addActionListener(newjava.awt.event.ActionListener() {
+    cmbSummarySize.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Select","Large","Moderate","small"}));
+              cmbSummarySize.addActionListener(new java.awt.event.ActionListener() {
                   public void actionPerformed(java.awt.event.ActionEvent evt) {
                          cmbSummarySizeActionPerformed(evt);
                   }
@@ -362,8 +362,7 @@ public class SentenceManager {
            jLabel4.setText("Summary Level");
 
 
-           org.jdesktop.layout.GroupLayout jPanel 1 Layout = new
-    org.jdesktop.layout.GroupLayout(jPanel1);
+           GroupLayout Layout = new  GroupLayout();
              jPanel1.setLayout(jPanel1Layout);
              jPanel1Layout.setHorizontalGroup(
                   jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -429,7 +428,7 @@ public class SentenceManager {
 
 
     jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.
-    VK_E,java.awt.event.InputEvent.CTRL_MASK));                                                                                                                                                                               -78
+    VK_E,java.awt.event.InputEvent.CTRL_MASK));
              jMenuItem2.setText("Exit");
              jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
                public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -588,7 +587,7 @@ public class SentenceManager {
             FIRST:event_cmbSummarySizeActionPerformed  
                       //TODO add your handling code here:
                   }//GEN-LAST:event_cmbSummarySizeActionPerformed
-                  public void displaySummary(StringSummarizedText) {                                                                                                                                                        -81
+                  public void displaySummary(StringSummarizedText) {
                  txtSumarizedText.SetText(summarizedText);
     }
     /**

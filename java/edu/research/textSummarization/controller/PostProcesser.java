@@ -1,12 +1,14 @@
 package edu.research.textSummarization.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.research.textSummarization.util.Constants;
 
 public class PostProcesser {
     private static PostProcesser m_SelfInstance = null;
-
+    String  m_DocTitleSentence;
+    List m_SentencesList = new ArrayList<String>();
   public static PostProcesser getInstance() {
 
   if(m_SelfInstance==null) {
@@ -18,9 +20,9 @@ public class PostProcesser {
 
   public ArrayList postProcessSummary(ArrayList summary) {
   System.out.println("before postprocessing summary size = "+summary.size());
-  ArrayList temp = removeRedundance(summary);
-  ArrayList resultSummary = removeDiscontinuity(temp);
-  System.out.println("After postproceesing summary size="+resultSummary.size());
+  ArrayList resultSummary = removeRedundance(summary);
+  //ArrayList resultSummary = removeDiscontinuity(temp);
+  //System.out.println("After postproceesing summary size="+resultSummary.size());
   return resultSummary;
   }
    public ArrayList removeRedundance(ArrayList summary) {
@@ -34,53 +36,52 @@ public class PostProcesser {
                //System.out.println("i="+i+" and i+it="+(i+iteration)+"size="+summary.size());
                 String preSentance= ((Sentence) summary.get(i)).getSentenceText();
                 String nextSentance=((Sentence)summary.get(i+iteration)).getSentenceText();
-                double cosineValue=getCosineValue(preSentance,nextSentance);
-                 count++;
-              if(cosineValue >=0.4) {
-              summary.remove(i+iteration);
-              iteration--;
-              }
+                /*
+                 * double cosineValue=getCosineValue(preSentance,nextSentance);
+                 * count++; if(cosineValue >=0.4) { summary.remove(i+iteration);
+                 * iteration--; }
+                 */
             
               //over 57
              // /67
-                 weightCuePhare = Constants.WEIGHT_DUE_TO_CUE_PHARES;
-                 break;
+                 //weightCuePhare = Constants.WEIGHT_DUE_TO_CUE_PHARES;
+                // break;
                 }
       }
       // Logic for weight colaculation due to cue phrase...
-      return weightCuePhare;
+      //return weightCuePhare;
+      return summary;
   }
   private double getWeightDueToLocation(Sentence sentence){
-  return getLocWeight(Sentance.getSentenceNo(),m_SentencesList.size());
+  return getLocWeight(sentence.getSentenceNo(), m_SentencesList.size());
   }
-  private double getLocWeight(int sentanceNo,inttotalNoOfSentence){
+  private double getLocWeight(int sentanceNo,int totalNoOfSentence){
   int middle = totalNoOfSentence/2;
   double weight = 0.0;
   if(sentanceNo < middle){
   weight = (double)(middle - sentanceNo)/middle;
   }
   else{
-  weight = (double)(sentaneNo - middle)/middle;
+  weight = (double)(sentanceNo - middle)/middle;
   }
   return weight;
   }
   private double getWeightDueToProperNoun(Sentence sentance) {
   double properNouneweight = 0.0;
   String sentanceText = sentance.getSentenceText();
-
+  String sentanceWords [] = sentanceText.split(" ");
   for(int i=1; i<sentanceWords.length;i++){
-  System.out.println("sentecewrod="+sentancewords[i]);
+  System.out.println("sentecewrod="+sentanceWords[i]);
   if(sentanceWords[i].length()<2)
   continue;
   char firstChar = sentanceWords[i].trim().charAt(0);
   //Character firstChar = new Character(sentanceWords[i].charAt(0));
   if(Character.isUpperCase(firstChar)){
-  properNouneWeight = properNouneWeight + 
-  Constants.WEIGHT_DUE_TO_PROPER_NOUN;
+      properNouneweight = properNouneweight +  Constants.WEIGHT_DUE_TO_PROPER_NOUN;
   }
   }
   //Logic for weight colaculation due to proper noun...
-  return properNouneWeight;
+  return properNouneweight;
   }
   public String getTitle(){
   return m_DocTitleSentence;
