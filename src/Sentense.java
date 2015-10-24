@@ -6,7 +6,7 @@ public class Sentense
 {
 
 
-String doc="";
+String doc="Neeraj";
 
 public Sentense(File fp) 
  {     
