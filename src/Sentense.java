@@ -5,8 +5,9 @@ import java.util.AbstractList;
 public class Sentense
 {
 
+    
+String doc="Mukesh";
 
-String doc="Neeraj";
 
 public Sentense(File fp) 
  {     
