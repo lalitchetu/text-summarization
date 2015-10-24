@@ -8,6 +8,7 @@ public class Sentense
     
 String doc="Mukesh";
 
+
 public Sentense(File fp) 
  {     
     int sz; byte bt[];  
